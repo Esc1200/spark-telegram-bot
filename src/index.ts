@@ -1804,8 +1804,9 @@ async function sendBuilderVoiceMedia(
   };
   const caption = voiceMediaCaption(voiceMedia, fallbackText);
   const options = caption ? { caption } : undefined;
+  const safeFilename = (voiceMedia.filename || "").replace(/[ -]/g, "_");
   console.log(
-    `[BridgeVoice] delivering media filename=${voiceMedia.filename} mime=${voiceMedia.mimeType} voiceCompatible=${voiceMedia.voiceCompatible} bytes=${audioBuffer.length} captionChars=${caption?.length || 0} spokenChars=${(voiceMedia.spokenText || '').length}`
+    `[BridgeVoice] delivering media filename=${safeFilename} mime=${voiceMedia.mimeType} voiceCompatible=${voiceMedia.voiceCompatible} bytes=${audioBuffer.length} captionChars=${caption?.length || 0} spokenChars=${(voiceMedia.spokenText || '').length}`
   );
   if (voiceMedia.voiceCompatible) {
     await ctx.replyWithVoice(inputFile, options);
